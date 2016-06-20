@@ -1,0 +1,2 @@
+INDEX VERSION 1.126+/Java Folder/Java Folder/GUI/src/.metadata/.plugins/org.eclipse.jdt.core
+794663829.index

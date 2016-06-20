@@ -1,0 +1,339 @@
+import java.awt.*;
+import java.awt.event.*;
+import java.util.regex.*;
+
+import javax.swing.*;
+
+
+public class chess implements ActionListener{
+	public static JFrame frame;
+	public static Container content;
+	public static JButton restart;
+	public static JButton[][] button = new JButton[8][];
+	public static boolean whiteTurn = true, firstButton = true, jumpTrue;
+	public static JLabel winLabel, whiteLabel, blackLabel;
+	public static String b1 = "", b2 = " ",op = "", winner = " ";  
+	public static Integer whiteGone = 0, blackGone = 0, secondButton = 1, num1 = 0, num2 = 0, num3 = 0, num4 = 0, a;
+	public static JMenu numMenu;
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		chess ttt = new chess();
+	}
+	public chess(){
+		frame = new JFrame();
+		frame.setSize(400,700);
+		frame.setTitle("Chess");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		content=frame.getContentPane();
+		JMenuBar menubar;
+		menubar = new JMenuBar();
+		frame.setJMenuBar(menubar);
+		JMenu menu;
+		
+		menu = new JMenu("Switch turn");
+		numMenu = new JMenu(" num1: " + num1 + " num2: " + num2 + " num3: " + num3 + " num4: " + num4);
+		JMenuItem menuItem;
+		menuItem  = new JMenuItem("Switch Turn");
+		menuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				whiteTurn = !whiteTurn;
+			}
+		});
+		menu.add(menuItem);
+		menubar.add(menu);
+		menubar.add(numMenu);
+		buttons();
+		frame.setVisible(true);
+	}
+	public void buttons(){
+		winLabel = new JLabel();
+		winLabel.setText(winner);
+		winLabel.setBounds(180,480,50,50);
+		whiteLabel = new JLabel();
+		whiteLabel.setText(" ");
+		whiteLabel.setBounds(50,420,50,50);
+		blackLabel = new JLabel();
+		blackLabel.setText(" ");
+		blackLabel.setBounds(50,435,50,50);
+		restart = new JButton();
+		restart.setBounds(125,520,150,50);
+		restart.setText("Restart");
+		restart.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				buttons();
+				frame.setSize(400,480);
+			}
+		});
+		content.add(winLabel);
+		content.add(restart);
+		for (int i = 0; i < 8; i++){
+			button[i] = new JButton[8];
+		}
+		for(int i = 0; i < button.length; i++){
+			for(int j = 0; j < button.length; j++){
+				
+				button[i][j] = new JButton(); //creates buttons
+				button[i][j].setBounds(j*50,i*50,50,50); //defines location and size
+				content.add(button[i][j]); //adds them
+				
+				button[i][j].setName(new String("" + i + j)); //sets the names of each button
+				
+				if(i == 0 || i == button.length - 1){//sets all the pieces
+					if(j == 0 || j == 7){
+						button[i][j].setText("R");
+					}
+					if(j == 1 || j == 6){
+						button[i][j].setText("B");
+					}
+					if(j == 2 || j == 5){
+						button[i][j].setText("Kn");
+					}
+					if(j == 3){
+						button[i][j].setText("Q");
+					}
+					if(j == 4){
+						button[i][j].setText("K");
+					}
+				}
+				
+				if(i == 1 || i == 6){ //sets the pawns
+					button[i][j].setText("P");
+				}
+				
+				
+				if(i < 2){//sets the colors of the pieces
+					button[i][j].setForeground(new Color(255,0,0));
+				}
+				else if(i > 5){
+					button[i][j].setForeground(new Color(0,0,0));
+				}
+				else{
+					button[i][j].setForeground(new Color(238,238,238));
+				}
+				
+				button[i][j].setOpaque(true);
+				if(i == 0 || i == 2 || i == 4 || i == 6){ //sets the background colors of the buttons
+					if(j == 1 || j == 3 || j == 5 || j == 7){
+						button[i][j].setBackground(new Color(0,0,0));
+					}
+					else {
+						button[i][j].setBackground(new Color(255,0,0));
+					}
+				}
+				else{
+					if(j == 0 || j == 2 || j == 4 || j == 6){
+						button[i][j].setBackground(new Color(0,0,0));
+					}
+					else{
+						button[i][j].setBackground(new Color(255,0,0));
+					}
+				}
+				
+			}
+		}
+		frame.setSize(400, 700);
+	}
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		int buttonX = 0;
+		int buttonY = 0;
+		int button2X = 0;
+		int button2Y = 0;
+		int buttonColor = 0;
+		String pieceKnockedOff = "";
+		if (!((JButton)event.getSource()).getText().equals(" ") /*&& firstButton == true*/){
+			if(whiteTurn && ((JButton)event.getSource()).getForeground().equals(new Color(255,0,0))){
+				b1 = ((JButton)event.getSource()).getName();
+				op = ((JButton)event.getSource()).getText();
+				String regex ="(\\d+)";
+				//firstButton = false;
+				buttonX = ((JButton)event.getSource()).getBounds().x/50;
+				buttonY = ((JButton)event.getSource()).getBounds().y/50;
+				buttonColor = ((JButton)event.getSource()).getBackground().getRGB();
+			}
+			if(!whiteTurn && ((JButton)event.getSource()).getForeground().equals(new Color(255,255,255))){
+				b1 = ((JButton)event.getSource()).getName();
+				/*String regex ="(\\d+)";
+				Matcher matcher1 = Pattern.compile( regex ).matcher(b1.substring(0, 1));
+				Matcher matcher2 = Pattern.compile( regex ).matcher(b1.substring(1, 2));
+				while (matcher1.find()) { // for each match
+				    buttonX = (Integer.parseInt(matcher1.group())); // convert to int
+				}
+				while (matcher2.find()){
+					buttonY = (Integer.parseInt(matcher2.group()));
+				}*/
+				op = ((JButton)event.getSource()).getText();
+				//firstButton = false;
+				buttonX = ((JButton)event.getSource()).getBounds().x/50;
+				buttonY = ((JButton)event.getSource()).getBounds().y/50;
+				buttonColor = ((JButton)event.getSource()).getBackground().getRGB();
+			}
+			if(b1 != "" && ((whiteTurn && ((JButton)event.getSource()).getForeground().equals(new Color(255,255,255))) || (!whiteTurn && ((JButton)event.getSource()).getForeground().equals(new Color(255,255,255))))){
+				//SecondButton
+				button2X = ((JButton)event.getSource()).getBounds().x/50;
+				button2Y = ((JButton)event.getSource()).getBounds().y/50;
+				
+				if(op.equals("R")){
+					if(buttonX == button2X || buttonY == button2Y){
+						whiteTurn = !whiteTurn;
+						firstButton = true;
+						button[buttonY][buttonX].setText(" ");
+						button[button2Y][button2X].setText(op);
+						if(!((JButton)event.getSource()).getForeground().equals(new Color(238,238,238))){
+							pieceKnockedOff = ((JButton)event.getSource()).getText();
+						}
+					}
+				}
+						
+			}
+			
+		}
+		/*if(firstButton == false){
+			if(!((JButton)event.getSource()).getText().equals(" ") || !((JButton)event.getSource()).getForeground().equals(buttonColor)){
+				button2X = ((JButton)event.getSource()).getBounds().x/50;
+				button2Y = ((JButton)event.getSource()).getBounds().y/50;
+				
+				if(op.equals("R")){
+					if(buttonX == button2X || buttonY == button2Y){
+						whiteTurn = !whiteTurn;
+						firstButton = true;
+						button[buttonY][buttonX].setText(" ");
+						button[button2Y][button2X].setText(op);
+						if(!((JButton)event.getSource()).getForeground().equals(new Color(238,238,238))){
+							pieceKnockedOff = ((JButton)event.getSource()).getText();
+						}
+					}
+				}
+				if(op.equals("P")){
+					if(whiteTurn){
+						
+					}
+				}
+				if(pieceKnockedOff != ""){
+					if(whiteTurn){
+						whiteLabel.setText(whiteLabel + ", " + pieceKnockedOff);
+					}
+					else{
+						blackLabel.setText(blackLabel + ", " + pieceKnockedOff);
+					}
+				}
+			}
+			
+			
+			else if(((((num1-num3)*(num1-num3)==4&&(num2-num4)*(num2-num4)==1)||(num1-num3)*(num1-num3)==1&&(num2-num4)*(num2-num4)==4)) && op.startsWith("B")){
+				secondButton = 1;
+				whiteTurn = !whiteTurn;
+				firstButton = true;
+				move();
+				((JButton)event.getSource()).setText(op);
+			}
+			else if(((num1-num3)*(num1-num3)==(num2-num4)*(num2-num4)) && op.startsWith("Kn")){
+				secondButton = 1;
+				whiteTurn = !whiteTurn;
+				firstButton = true;
+				move();
+				((JButton)event.getSource()).setText(op);
+			}
+			else if((num1-num3)*(num1-num3)<=1 && (num2-num4)*(num2-num4)<=1 && op.startsWith("K") && !op.startsWith("Kn")){
+				secondButton = 1;
+				whiteTurn = !whiteTurn;
+				firstButton = true;
+				move();
+				((JButton)event.getSource()).setText(op);
+			}
+			else if(op.startsWith("P")){
+				if(op.endsWith("w")){
+					if(num1 - num3 == -1 && num2 - num4 == 0 && ((JButton)event.getSource()).getText().equals(" ")){
+						secondButton = 1;
+						whiteTurn = !whiteTurn;
+						firstButton = true;
+						move();
+						((JButton)event.getSource()).setText(op);
+					}
+					if(num1 == 2 && num1 - num3 == -2 && num2 - num4 == 0 && ((JButton)event.getSource()).getText().equals(" ")){
+						secondButton = 1;
+						whiteTurn = !whiteTurn;
+						firstButton = true;
+						move();
+						((JButton)event.getSource()).setText(op);
+					}
+					if(num1 - num3 == -1 && num2 - num4 == 1 && !((JButton)event.getSource()).getText().endsWith(op.substring(op.length()-1, op.length())) && !((JButton)event.getSource()).getText().equals(" ")){
+						secondButton = 1;
+						whiteTurn = !whiteTurn;
+						firstButton = true;
+						move();
+						((JButton)event.getSource()).setText(op);
+					}
+				}
+				if(op.endsWith("b")){
+				if(num1 - num3 == 1 && num2 - num4 == 0 && ((JButton)event.getSource()).getText().equals(" ")){
+					secondButton = 1;
+					whiteTurn = !whiteTurn;
+					firstButton = true;
+					move();
+					((JButton)event.getSource()).setText(op);
+				}
+				if(num1 == 7 && num1 - num3 == 2 && num2 - num4 == 0 && ((JButton)event.getSource()).getText().equals(" ")){
+					secondButton = 1;
+					whiteTurn = !whiteTurn;
+					firstButton = true;
+					move();
+					((JButton)event.getSource()).setText(op);
+				}
+				if(num1 - num3 == 1 && num2 - num4 == 1 && !((JButton)event.getSource()).getText().endsWith(op.substring(op.length()-1, op.length())) && !((JButton)event.getSource()).getText().equals(" ")){
+					secondButton = 1;
+					whiteTurn = !whiteTurn;
+					firstButton = true;
+					move();
+					((JButton)event.getSource()).setText(op);
+				}
+			}
+			}
+			
+		}*/
+		title();
+		//checkWin();
+	}
+	public static void title(){
+		numMenu.setText(" num1: " + num1 + " num2: " + num2 + " num3: " + num3 + " num4: " + num4);
+		frame.setTitle(b1 + " " + b2 + " " + op + " " + whiteTurn + " " + winner);
+	}
+	/*public static void checkWin(){
+		if(!b12.getText().startsWith("�")&&!b14.getText().startsWith("�")&&!b16.getText().startsWith("�")&&!b18.getText().startsWith("�")
+		&&!b21.getText().startsWith("�")&&!b23.getText().startsWith("�")&&!b25.getText().startsWith("�")&&!b27.getText().startsWith("�")
+		&&!b32.getText().startsWith("�")&&!b34.getText().startsWith("�")&&!b36.getText().startsWith("�")&&!b38.getText().startsWith("�")
+		&&!b41.getText().startsWith("�")&&!b43.getText().startsWith("�")&&!b45.getText().startsWith("�")&&!b47.getText().startsWith("�")
+		&&!b52.getText().startsWith("�")&&!b54.getText().startsWith("�")&&!b56.getText().startsWith("�")&&!b58.getText().startsWith("�")
+		&&!b61.getText().startsWith("�")&&!b63.getText().startsWith("�")&&!b65.getText().startsWith("�")&&!b67.getText().startsWith("�")
+		&&!b72.getText().startsWith("�")&&!b74.getText().startsWith("�")&&!b76.getText().startsWith("�")&&!b78.getText().startsWith("�")
+		&&!b81.getText().startsWith("�")&&!b83.getText().startsWith("�")&&!b85.getText().startsWith("�")&&!b87.getText().startsWith("�")){
+			winner = "white";
+			win();
+		}
+		if(!b12.getText().startsWith("o")&&!b14.getText().startsWith("o")&&!b16.getText().startsWith("o")&&!b18.getText().startsWith("o")
+		&&!b21.getText().startsWith("o")&&!b23.getText().startsWith("o")&&!b25.getText().startsWith("o")&&!b27.getText().startsWith("o")
+		&&!b32.getText().startsWith("o")&&!b34.getText().startsWith("o")&&!b36.getText().startsWith("o")&&!b38.getText().startsWith("o")
+		&&!b41.getText().startsWith("o")&&!b43.getText().startsWith("o")&&!b45.getText().startsWith("o")&&!b47.getText().startsWith("o")
+		&&!b52.getText().startsWith("o")&&!b54.getText().startsWith("o")&&!b56.getText().startsWith("o")&&!b58.getText().startsWith("o")
+		&&!b61.getText().startsWith("o")&&!b63.getText().startsWith("o")&&!b65.getText().startsWith("o")&&!b67.getText().startsWith("o")
+		&&!b72.getText().startsWith("o")&&!b74.getText().startsWith("o")&&!b76.getText().startsWith("o")&&!b78.getText().startsWith("o")
+		&&!b81.getText().startsWith("o")&&!b83.getText().startsWith("o")&&!b85.getText().startsWith("o")&&!b87.getText().startsWith("o")){
+			winner = "black";
+			win();
+		}
+	
+	}*/
+	public static void win(){
+		frame.setSize(400,700);
+		if(winner == "white"){
+			winLabel.setText("o wins");
+		}
+		if(winner == "black"){
+			winLabel.setText("� wins");
+		}
+	}
+}

@@ -1,0 +1,45 @@
+import java.awt.Point;
+
+public class Trainer {
+	private String name;
+	private Bag bag;
+	private Monster[] monsters;
+	private String gender;
+	private Point coordinates;
+	public Trainer(String name){
+		this.name = name;
+	}
+	public Point getCoordinates(){
+		return this.coordinates;
+	}
+	public String getGender(){
+		return this.gender;
+	}
+	public String getName(){
+		return this.name;
+	}
+	public void setGender(String gender){
+		this.gender = gender;
+	}
+	public void setName(String name){
+		this.name = name;
+	}
+	public void setCoordinates(Point point){
+		this.coordinates = point;
+	}
+	public void setCoordinates(int x, int y){
+		this.coordinates = new Point(x,y);
+	}
+	public Bag getBag(){
+		return this.bag;
+	}
+	public void setBag(Bag newBag){
+		bag = newBag;
+	}
+	public Monster[] getMonsters(){
+		return this.monsters;
+	}
+	public void setMonsters(Monster[] monsters){
+		this.monsters = monsters;
+	}
+}

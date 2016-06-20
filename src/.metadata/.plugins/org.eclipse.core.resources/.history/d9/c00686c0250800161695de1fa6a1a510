@@ -1,0 +1,245 @@
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
+import javax.swing.*;
+
+public class Grapher extends JFrame implements MouseMotionListener, MouseListener{
+	
+	public static Line2D line;
+	public static DrawingComponent DC = new DrawingComponent();
+	public static double startX = 0;
+	public static double startY = 0;
+	public static double startXMax, startXMin, startYMax, startYMin;
+	public static boolean mouseIsPressed = false;
+	public static JLabel xMaxLabel, xMinLabel, yMaxLabel, yMinLabel, functionLabel;
+	public JPanel panel = new JPanel(null,true);
+	public static Graph graph;
+	public JButton zoomIn, zoomOut;
+	
+	
+	public JTextField xMaxBar;// = new JTextField(String.valueOf("DC.xMax"),30);
+	public JTextField xMinBar;// = new JTextField(String.valueOf("DC.xMin"),30);
+	public JTextField yMaxBar;// = new JTextField(String.valueOf("DC.yMax"),30);
+	public JTextField yMinBar;// = new JTextField(String.valueOf("DC.yMin"),30);
+	public static JTextField function;
+	
+	public Grapher(){
+		
+		setTitle("Graphing Calculator");
+		setSize(800,624);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		addLayout();
+		add(panel);
+		setVisible(true);
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new Grapher();
+	}
+	public void addLayout(){
+				
+		getRootPane().addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                // This is only called when the user releases the mouse button.
+                
+            	System.out.println("componentResized");
+                
+            	DC.setFrameHeight(getHeight());
+                DC.setFrameWidth(getWidth());
+                DC.setBounds(0, 0, (int) DC.getFrameWidth(), (int) DC.getFrameHeight());
+            }
+            
+        });
+		DC.addMouseListener(this);
+		DC.addMouseMotionListener(this);
+		DC.setBounds(0, 0, (int) DC.getFrameWidth(), (int) DC.getFrameHeight());
+		
+		
+		functionLabel = new JLabel("Function");
+		functionLabel.setBounds(17, (int) (DC.getFrameHeight()/7) - 15, 180, 12);
+		function = new JTextField(DC.function,7);
+		function.setBounds(10,(int) (DC.getFrameHeight()/7),180,30);
+		function.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				DC.function = function.getText();
+			}
+		});
+		
+		
+		xMaxLabel = new JLabel("xMax");
+		xMaxLabel.setBounds(17, (int) (DC.getFrameHeight()/7*2)-15, 180, 12);
+		xMaxBar = new JTextField(String.valueOf(DC.getXMax()),7);
+		xMaxBar.setBounds(10,(int) (DC.getFrameHeight()/7*2),180,30);
+		xMaxBar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				DC.setXMax(Double.parseDouble(xMaxBar.getText())); 
+			}
+		});
+		
+		
+		xMinLabel = new JLabel("xMin");
+		xMinLabel.setBounds(17, (int) (DC.getFrameHeight()/7) * 3 -15, 180, 12);
+		xMinBar = new JTextField(String.valueOf(DC.xMin),7);
+		xMinBar.setBounds(10,(int) (DC.getFrameHeight()/7) * 3,180,30);
+		xMinBar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				DC.setXMin(Double.parseDouble(xMinBar.getText())); 
+			}
+		});
+		
+		yMaxLabel = new JLabel("yMax");
+		yMaxLabel.setBounds(17, (int) (DC.getFrameHeight()/7) * 4 -15, 180, 12);
+		yMaxBar = new JTextField(String.valueOf(DC.yMax),7);
+		yMaxBar.setBounds(10,(int) (DC.getFrameHeight()/7) * 4,180,30);
+		yMaxBar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				DC.setYMax(Double.parseDouble(yMaxBar.getText())); 
+			}
+		});
+		
+		yMinLabel = new JLabel("yMin");
+		yMinLabel.setBounds(17, (int) (DC.getFrameHeight()/7) * 5 -15, 180, 12);
+		yMinBar = new JTextField(String.valueOf(DC.yMin),7);
+		yMinBar.setBounds(10,(int) (DC.getFrameHeight()/7) * 5,180,30);
+		yMinBar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				DC.setYMin(Double.parseDouble(yMinBar.getText())); 
+			}
+		});
+		
+		zoomIn = new JButton("+");
+		zoomIn.setBounds(217,40,40,40);
+		zoomIn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				DC.setXMax(DC.getXMax()*0.5);
+				DC.setXMin(DC.getXMin()*0.5);
+				DC.setYMax(DC.getYMax()*0.5);
+				DC.setYMin(DC.getYMin()*0.5);
+
+				xMaxBar.setText(String.valueOf(DC.getXMax()));
+				xMinBar.setText(String.valueOf(DC.getXMin()));
+				yMaxBar.setText(String.valueOf(DC.getYMax()));
+				yMinBar.setText(String.valueOf(DC.getYMin()));
+			}
+		});
+		
+		zoomOut = new JButton("-");
+		zoomOut.setBounds(217,80,40,40);
+		zoomOut.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				DC.setXMax(DC.getXMax()*2.0);
+				DC.setXMin(DC.getXMin()*2.0);
+				DC.setYMax(DC.getYMax()*2.0);
+				DC.setYMin(DC.getYMin()*2.0);
+				
+				xMaxBar.setText(String.valueOf(DC.getXMax()));
+				xMinBar.setText(String.valueOf(DC.getXMin()));
+				yMaxBar.setText(String.valueOf(DC.getYMax()));
+				yMinBar.setText(String.valueOf(DC.getYMin()));
+			}
+		});
+		
+		graph = new Graph(function.getText(),DC.getXMin(),DC.getXMax());
+		DC.drawGraph((Graphics2D) DC.getGraphics(), graph);
+		
+		panel.add(xMaxBar);
+	    panel.add(xMinBar);
+		panel.add(yMaxBar);
+		panel.add(yMinBar);
+		panel.add(function);
+		panel.add(zoomIn);
+		panel.add(zoomOut);
+		
+		
+		panel.add(xMaxLabel);
+		panel.add(xMinLabel);
+		panel.add(yMaxLabel);
+		panel.add(yMinLabel);
+		panel.add(functionLabel);
+		panel.add(DC);
+		//frame.add(DC);
+		
+		//frame.setSize(800, 624);
+		
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getX() > getWidth()/4 && !mouseIsPressed) {
+			mouseIsPressed = true;
+			startX = e.getX();
+			startY = e.getY();
+			startXMax = DC.getXMax();
+			startXMin = DC.getXMin();
+			startYMax = DC.getYMax();
+			startYMin = DC.getYMin();
+			System.out.println("Mouse Pressed, (" + e.getX() + "," + e.getY() + ")");
+		}
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		startX = 0;
+		startY = 0;
+		mouseIsPressed = false;
+		startXMax = 0;
+		startXMin = 0;
+		startYMax = 0;
+		startYMin = 0;
+
+		System.out.println("Mouse Released, (" + e.getX() + "," + e.getY() + ")");
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getX() > getWidth()/4){
+			System.out.println("xMax == " + DC.getXMax());
+			Double xChange = DC.newXCoord(startX) - DC.newXCoord(e.getX()) ;
+			System.out.println("Start X" + DC.newXCoord(startX) + " Current X" + DC.newXCoord(e.getX()));
+			DC.xMax = startXMax + xChange;
+			DC.xMin = startXMin + xChange;
+			System.out.println("xMax == " + DC.getXMax());
+			System.out.println("yMax == " + DC.getYMax());
+			Double yChange =  DC.newYCoord(startY) - DC.newYCoord(e.getY());
+			DC.yMax = startYMax + yChange;
+			DC.yMin = startYMin + yChange;
+			System.out.println("yMax == " + DC.getYMax());
+			System.out.println("Mouse Dragged, (" + e.getX() + "," + e.getY() + ")");
+			xMaxBar.setText(String.valueOf(DC.getXMax()));
+			xMinBar.setText(String.valueOf(DC.getXMin()));
+			yMaxBar.setText(String.valueOf(DC.getYMax()));
+			yMinBar.setText(String.valueOf(DC.getYMin()));
+		}
+		
+	}
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

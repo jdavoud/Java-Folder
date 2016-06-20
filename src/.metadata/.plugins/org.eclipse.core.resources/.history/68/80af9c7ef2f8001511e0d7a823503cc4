@@ -1,0 +1,41 @@
+
+public class Trainer {
+	private String name;
+	private Bag bag;
+	private Monster[] monsters;
+	private String gender;
+	private int location;
+	public Trainer(String name){
+		this.name = name;
+	}
+	public int getLocation(){
+		return this.location;
+	}
+	public String getGender(){
+		return this.gender;
+	}
+	public String getName(){
+		return this.name;
+	}
+	public void setGender(String gender){
+		this.gender = gender;
+	}
+	public void setName(String name){
+		this.name = name;
+	}
+	public void setLocation(int Location){
+		this.location = Location;
+	}
+	public Bag getBag(){
+		return this.bag;
+	}
+	public void setBag(Bag newBag){
+		bag = newBag;
+	}
+	public Monster[] getMonsters(){
+		return this.monsters;
+	}
+	public void setMonsters(Monster[] monsters){
+		this.monsters = monsters;
+	}
+}
