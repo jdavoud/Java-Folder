@@ -1,0 +1,22 @@
+
+public class thing {
+	public static String text = "Jacob Abbisso <18jabbisso@gannacademy.org>; Eden Abotbool <18eabotbool@gannacademy.org>; Ori Applbaum <18oapplbaum@gannacademy.org>; Gilat Bailen <18gbailen@gannacademy.org>; Eliana Bazer <18ebazer@gannacademy.org>; Adam Bakalchuk <18abakalchuk@gannacademy.org>; Alyssa Block <18ablock@gannacademy.org>; Noam Borensztajn <18nborensztajn@gannacademy.org>; Jason Bryer <18jbryer@gannacademy.org>; Elan Cohen <18ecohen@gannacademy.org>; Jordan Cyker <18jcyker@gannacademy.org>; Kol Davis <18kdavis@gannacademy.org>; Jacob Davoudgoleh <18jdavoudgoleh@gannacademy.org>; Maya Dayanim <18mdayanim@gannacademy.org>; Isabella Bartolozzi <18ibartolozzi@gannacademy.org>; Ilana Deykin <18ideykin@gannacademy.org>; Shelly Edry <18sedry@gannacademy.org>; Noah Ente <18nente@gannacademy.org>; Giselle Fellman <18gfellman@gannacademy.org>; Jessica Friedman <18jfriedman@gannacademy.org>; Elan Ganz <18eganz@gannacademy.org>; Avi Gold <18agold@gannacademy.org>; Nessa Goldhirsch Brown <18ngoldhirschbrown@gannacademy.org>; Eitan Green <18egreen@gannacademy.org>; Kayla Handler <18khandler@gannacademy.org>; Elliot Kann <18ekann@gannacademy.org>; Zachary Katz <18zkatz@gannacademy.org>; Roe Keshet <18rkeshet@gannacademy.org>; Stav Keshet <18skeshet@gannacademy.org>; Noah Krispin <18nkrispin@gannacademy.org>; Bradley Lampert <18blampert@gannacademy.org>; Rachel Lange <18rlange@gannacademy.org>; Maya Levisohn <18mlevisohn@gannacademy.org>; Benjamin Lieberman <18blieberman@gannacademy.org>; Joshua Litwin <18jlitwin@gannacademy.org>; Libby Mael <18lmael@gannacademy.org>; Shayna Mael <18smael@gannacademy.org>; Jenna Margolis <18jmargolis@gannacademy.org>; Hadas Maroun <18hmaroun@gannacademy.org>; Clara Meskin <18cmeskin@gannacademy.org>; Mia Milewich <18mmilewich@gannacademy.org>; Eliezer Pearl <18epearl@gannacademy.org>; Melanie Rosenbloom <18mrosenbloom@gannacademy.org>; Marissa Rosenzweig <18mrosenzweig@gannacademy.org>; Maya Rubin <18mrubin@gannacademy.org>; Noah Savitz <18nsavitz@gannacademy.org>; Benjamin Schneider <18bschneider@gannacademy.org>; Johnatan Schneid <18jschneid@gannacademy.org>; Theodore Shane <18tshane@gannacademy.org>; Zachary Shein <18zshein@gannacademy.org>; Benjamin Shoyer <18bshoyer@gannacademy.onmicrosoft.com>; Rachel Silverstein <18rsilverstein@gannacademy.org>; Benjamin Silverstone <18bsilverstone@gannacademy.org>; Devorah Simon <18dsimon@gannacademy.org>; Shira Small <18ssmall@gannacademy.org>; Danielle Smolyar <18dsmolyar@gannacademy.org>; Benjamin Sokol <18bsokol@gannacademy.org>; Norman Tall <18ntall@gannacademy.org>; Seth Turk <18sturk@gannacademy.org>; Leanna Ugent <18lugent@gannacademy.org>; David Unobskey <18dunobskey@gannacademy.org>; Chava Whittum <18cwhittum@gannacademy.org>; Sarah Wilner <18swilner@gannacademy.org>; Sarah Winn <18swinn@gannacademy.org>; Jacob Wolf <18jwolf@gannacademy.org>; Leila Zisk <18lzisk@gannacademy.org>; Noam Benjamin <18nbenjamin@gannacademy.org>";
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println(text);
+		
+		for(int i = 0; i < text.length() - 3; i++){
+			text.replaceAll("Jacob Abbisso ;", " ");
+			System.out.println(i);
+			if (text.substring(i,i+1).equals("<")){
+				
+				System.out.println("Here");
+				text = text.substring(0, i) + text.substring(text.indexOf(">", i)+1, text.length());
+				
+			}
+			
+		}
+		System.out.println(text);
+	}
+
+}

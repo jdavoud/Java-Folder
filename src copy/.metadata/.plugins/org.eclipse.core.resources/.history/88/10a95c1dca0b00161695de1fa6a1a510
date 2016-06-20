@@ -1,0 +1,17 @@
+
+public class Ball extends Item{
+	
+	public Ball(String name) {
+		super(name);
+		this.setImage("images/balls/" + name + ".png");
+		//this.setImage("images/balls/masterball.png");
+		// TODO Auto-generated constructor stub
+	}
+//	@Override
+	public void pressedOn(Trainer trainer, Tile tile){
+		super.pressedOn(trainer, tile);
+		World.textBox.setText("Picked up a " + this.getName());
+	}
+	
+	
+}

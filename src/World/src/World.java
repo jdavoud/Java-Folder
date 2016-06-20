@@ -21,8 +21,8 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 class Main {
-	static World world;
-	public static void main(String[] args){
+	/*static World world;
+	/public static void main(String[] args){
 		try {
 			loadSave();
 		} catch (ClassNotFoundException | IOException e) {
@@ -40,7 +40,7 @@ class Main {
 		ObjectInputStream obj_in = new ObjectInputStream (new FileInputStream("testsave.txt"));
 		world = (World) obj_in.readObject();
 		System.out.println(world.toString());
-	}
+	}*/
 	
 }
 public class World extends Applet implements KeyListener, MouseListener, Serializable{
@@ -70,7 +70,7 @@ public class World extends Applet implements KeyListener, MouseListener, Seriali
 	public static Monster pikachu, charmander;
 	public static Type fire, water, grass, electric, ground, rock, dark, fight, normal, flying, psychic, ghost, dragon, ice, bug, poison, steel;
 	public static Move Shock, Tackle, ThunderWave, Spark;
-	@Override
+	/*@Override
 	public String toString() {
 		return "World [world=" + world + ", mode=" + mode + ", player=" + player + ", rival=" + rival + ", optionNum="
 				+ optionNum + ", repaintNum=" + repaintNum + ", step=" + step + ", wPressed=" + wPressed + ", aPressed="
@@ -79,7 +79,7 @@ public class World extends Applet implements KeyListener, MouseListener, Seriali
 				+ Arrays.toString(keysPressed) + ", canPress=" + canPress + ", Oak=" + Oak + ", currentMonster="
 				+ currentMonster + ", currentRoom=" + currentRoom + ", screenRoom=" + screenRoom + ", mouseCoords="
 				+ mouseCoords + ", homeTown=" + homeTown + ", battleNextRepaint=" + battleNextRepaint + "]";
-	}
+	}*/
 	public World() throws ClassNotFoundException{
 		Oak = Toolkit.getDefaultToolkit().getImage("images/oak.png");
 		player = new Trainer("Name");
@@ -123,19 +123,19 @@ public class World extends Applet implements KeyListener, MouseListener, Seriali
 		//need to write setMoves();
 		setTypes();
 		setRooms();
-		try {
-			loadSave();
+		/*try {
+			//loadSave();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		currentRoom = playerHouse;
 
 		//setSize(520,600);
 		addKeyListener(this);
 		addMouseListener(this);
 
-		log(this.toString());
+		//log(this.toString());
 	}
 	public void init(){
 		try {
@@ -157,14 +157,14 @@ public class World extends Applet implements KeyListener, MouseListener, Seriali
 		} else if (mode == "Battle"){
 			battle(g2);
 		}
-		if(keysPressed[80]){
+		/*if(keysPressed[80]){
 			try {
 				writeToFile(world);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		repaint();
 	}
 
@@ -172,15 +172,15 @@ public class World extends Applet implements KeyListener, MouseListener, Seriali
 	//		//saveGame();
 	//		//loadSave();
 	//	}
-	public void writeToFile(World world) throws IOException{
+	/*public void writeToFile(World world) throws IOException{
 		ObjectOutputStream obj_out = new ObjectOutputStream (new FileOutputStream("testsave.txt"));
 		//Write object out to disk
 		obj_out.writeObject (world);
-	}
-	public void loadSave() throws FileNotFoundException, IOException, ClassNotFoundException{
+	}*/
+	/*public void loadSave() throws FileNotFoundException, IOException, ClassNotFoundException{
 		ObjectInputStream obj_in = new ObjectInputStream (new FileInputStream("testsave.txt"));
 		world = (World) obj_in.readObject();
-	}
+	}*/
 	public void beginning(Graphics2D g2){
 		Color startColor = g2.getColor();
 		//So that you can't click enter to skip through everything

@@ -1,0 +1,10 @@
+
+public class Ball extends Item{
+	
+	public Ball(String name) {
+		super(name);
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+}

@@ -1,0 +1,124 @@
+import java.util.Scanner;
+
+
+public class typeInCalculator {
+
+	/**
+	 * @param args
+	 */
+	public static String error = "";
+	public static String line;
+	public static void main(String[] args) {
+		while(true){
+			askForLine();
+			System.out.println(answer(line));
+		}
+	}
+	public static void askForLine(){
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Calculator: ");
+	    line = scan.next();
+	}
+	/*public static void scanLine(){
+		line.replaceAll(" ", "");
+		if(numberOf("(") == numberOf(")")){
+			if(numberOf("(") != 0){
+				for(int i = 0; i < line.length(); i++){
+					if(line.substring(i, i + 1).equals("(")){
+						if(line.indexOf(")",i) < line.indexOf("(",i)){
+							
+						}
+					}
+				}
+			}
+		} else {
+			System.out.println("Parentheses don't match!");
+		}
+	}*/
+	/*public static int doTheMath(String s){
+		int answer;
+		if(s.contains("/") || s.contains("*") || s.contains("+") || s.contains("-") || s.contains("^")){
+			
+		} else {
+			Boolean allAreNumbers = true;
+			for(int i = 0; i < s.length(); i++){
+				if(s.substring(i).equals("0") || s.substring(i).equals("1") || s.substring(i).equals("2") || 
+						s.substring(i).equals("3") || s.substring(i).equals("4") || s.substring(i).equals("5") || 
+						s.substring(i).equals("6") || s.substring(i).equals("7") || s.substring(i).equals("8") || 
+						s.substring(i).equals("9")){
+					
+					
+				} else { //if one of the letters in not 0-9
+					allAreNumbers = false;
+				}
+			}
+			if(allAreNumbers){
+				//answer = 
+			}
+		}
+		
+		return answer;
+	}*/
+	public static String answer(String s){
+		int t = 0;
+		while(numberOf("/") > 0 || numberOf("*") > 0 || numberOf("+") > 0 || numberOf("-") > 0){
+			t = 1;
+			if(numberOf("(") == numberOf(")") && numberOf("(") > 0){	
+				t = 2;
+				for(int i = 0; i < s.length(); i++){
+					t = 3;
+					if(s.contains("(")){
+						t = 4;
+						if(s.indexOf(")") < s.indexOf("(")){
+							//s = s.substring(0, s.indexOf(")",i)) + answer(s.substring(i,s.indexOf(")",i))) + s.substring(0, s.indexOf(")",i));
+							t = 5;
+						}
+					}
+				}
+			}
+			/*if(numberOf("*") > 0 || numberOf("/") > 0){
+				s = "2";
+				for(int i = 0; i < s.length(); i++){
+					if(s.substring(i).equals("(")){
+						s = "3";
+						if(s.indexOf(")") < s.indexOf("(")){
+							//s = s.substring(0, s.indexOf(")",i)) + answer(s.substring(i,s.indexOf(")",i))) + s.substring(0, s.indexOf(")",i));
+							s = "4";
+						}
+					}
+				}
+			}*/
+				
+			line = "";
+		}
+		if(error != ""){
+			s = error;
+		}
+		return String.valueOf(t);
+	}
+	public static int numberOf(String s){
+		int n = 0;
+		for (int i = 0; i < line.length(); i++){
+			if(line.substring(i,i+1).equals(s)){
+				n++;
+			}
+		}
+		return n;
+	}
+	public static double doTheMath(int num1, String op, int num2){
+		double answer = 0;
+		if(op.equals("*")){
+	    	answer = (num1*num2);
+		} 
+		else if(op.equals("/")) {
+			answer = (num1/num2);
+		}
+		else if(op.equals("+")) {
+			answer = (num1+num2);
+		}
+		else if(op.equals("-")) {
+			answer = (num1-num2);
+		}
+		return answer;
+	}
+}

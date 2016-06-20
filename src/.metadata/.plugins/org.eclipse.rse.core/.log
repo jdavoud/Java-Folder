@@ -1,4 +1,4 @@
-Mon Jun 20 10:21:09 EDT 2016
+Mon Jun 20 10:50:52 EDT 2016
 ERROR org.eclipse.rse.core  Unexpected Exception
 java.net.UnknownHostException: Jacobs-MBP-2.home: Jacobs-MBP-2.home: nodename nor servname provided, or not known
 	at java.net.InetAddress.getLocalHost(InetAddress.java:1473)

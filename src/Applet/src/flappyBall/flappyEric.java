@@ -152,7 +152,7 @@ public class flappyEric extends Applet implements MouseListener, KeyListener, Se
 			if(keysPressed[e.getKeyCode()] == false){
 				if(e.getKeyCode() == 10){
 					typingName = false;
-					//ball.setImage("pictures/" + name + ".png");
+					ball.setImage("pictures/" + name + ".png");
 					name = "";
 				}else if(e.getKeyCode() == 8){
 					name = name.substring(0,name.length()-2);

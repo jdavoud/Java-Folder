@@ -1,0 +1,27 @@
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+
+public class Graph {
+	private Ellipse2D[] points;
+	private String function;
+	private double domainMin, domainMax;
+	private Function functionReader;
+	public Graph(String function, double domainMin, double domainMax){
+		this.function = function;
+		this.domainMax = domainMax;
+		this.domainMin = domainMin;
+		double domainDifference = domainMax - domainMin;
+		double x = domainMin + (domainDifference/points.length);
+		double y = functionReader.textFunc(x, function);
+		points = new Ellipse2D.Double[2000];
+		for(int i = 0; i < points.length; i++){
+			points[i] = new Ellipse2D.Double(x,y,1,1);
+		}
+	}
+	public void setPoints(Ellipse2D[] points){
+		this.points = points;
+	}
+	public Ellipse2D[] getPoints(){
+		return this.points;
+	}
+}
